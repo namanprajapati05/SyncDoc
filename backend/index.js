@@ -4,6 +4,10 @@ const cors = require("cors");
 const connectDb = require("./src/config/database");
 require("dotenv").config();
 
+//router import
+const userRouter = require("./src/routes/user")
+
+
 const app = express();
 
 // Middleware
@@ -15,6 +19,17 @@ const PORT = process.env.PORT || 8000;
 
 // Routes
 
+app.use("/user" , userRouter )
+
+
+// global error handler
+
+app.use((err, req, res, next) => {
+    res.status(err.statusCode || 500).json({
+        success: false,
+        message: err.message || "Internal Server Error"
+    });
+});
 
 
 
