@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const connectDb = require("./src/config/database");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 //router import
 const userRouter = require("./src/routes/user")
@@ -13,6 +14,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 // Port
 const PORT = process.env.PORT || 8000;
