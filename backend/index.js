@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const connectDb = require("./src/config/database");
 require("dotenv").config();
 
 const app = express();
@@ -16,7 +17,17 @@ const PORT = process.env.PORT || 8000;
 
 
 
+
 // Start server
-app.listen(PORT, () => {
+
+const startServer = async()=>{
+    await connectDb();
+
+
+    app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
+
+}
+
+startServer();
