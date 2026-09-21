@@ -1,30 +1,72 @@
-const blockSchema = new mongoose.Schema(
+const mongoose = require("mongoose");
+
+const documentSchema = new mongoose.Schema(
   {
-    blockId: {
+    title: {
       type: String,
-      required: true,
+      required: true
     },
 
-    type: {
-      type: String,
-      enum: ["paragraph", "heading", "image", "list", "code"],
-      required: true,
-    },
-
-    content: {
-      type: String,
-      default: "",
-    },
-
-    createdBy: {
+    ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true
     },
 
-    updatedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    collaborators: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true
+        },
+
+        role: {
+          type: String,
+          enum: ["editor", "viewer"],
+          required: true
+        }
+      }
+    ],
+
+    ast: {
+      type: {
+        type: String,
+        required: true
+      },
+
+      blocks: [
+        {
+          blockId: {
+            type: String,
+            required: true
+          },
+
+          type: {
+            type: String,
+            required: true
+          },
+
+          content: {
+            type: String
+          },
+
+          createdBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+          },
+
+          updatedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+          }
+        }
+      ]
+    }
   },
-  { _id: false }
+  {
+    timestamps: true
+  }
 );
+
+module.exports = mongoose.model("Document", documentSchema);
