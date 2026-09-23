@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './Signup.css'
 
 const UserIcon = () => (
 	<svg viewBox="0 0 24 24" aria-hidden="true">

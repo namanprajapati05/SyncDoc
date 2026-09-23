@@ -1,0 +1,170 @@
+.navbar {
+	display: flex;
+	align-items: center;
+	max-width: 1200px;
+	min-height: 66px;
+	margin: 0 auto;
+	padding: 0 28px;
+}
+
+.navbar-brand {
+	display: inline-flex;
+	align-items: center;
+	flex-shrink: 0;
+	gap: 9px;
+	color: #14213d;
+	font-size: 19px;
+	font-weight: 750;
+	letter-spacing: -0.3px;
+	text-decoration: none;
+}
+
+.brand-icon {
+	display: grid;
+	width: 26px;
+	height: 26px;
+	place-items: center;
+	border-radius: 6px;
+	color: #ffffff;
+	background: #2879ed;
+}
+
+.brand-icon svg {
+	width: 17px;
+	height: 17px;
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.7;
+}
+
+.navbar-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex: 1;
+	margin-left: 126px;
+}
+
+.navbar-links,
+.navbar-actions {
+	display: flex;
+	align-items: center;
+}
+
+.navbar-links {
+	align-self: stretch;
+	gap: 29px;
+}
+
+.navbar-link {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	color: #14213d;
+	font-size: 11px;
+	font-weight: 550;
+	text-decoration: none;
+}
+
+.navbar-link::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 2px;
+	background: #2879ed;
+	content: "";
+	opacity: 0;
+	transform: scaleX(0.45);
+	transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.navbar-link:hover::after,
+.navbar-link:focus-visible::after,
+.navbar-link.active::after {
+	opacity: 1;
+	transform: scaleX(1);
+}
+
+.navbar-link svg {
+	width: 12px;
+	height: 12px;
+	fill: none;
+	stroke: #2879ed;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.8;
+}
+
+.navbar-actions {
+	gap: 12px;
+}
+
+.navbar-button {
+	display: inline-flex;
+	min-height: 26px;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	padding: 0 15px;
+	font-size: 10px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.navbar-button:hover,
+.navbar-button:focus-visible {
+	transform: translateY(-1px);
+}
+
+.login-button {
+	border: 1px solid #a7c8fa;
+	color: #1767d5;
+	background: #ffffff;
+}
+
+.login-button:hover,
+.login-button:focus-visible {
+	background: #f2f7ff;
+	box-shadow: 0 2px 6px rgba(40, 121, 237, 0.12);
+}
+
+.primary-button {
+	border: 1px solid #2879ed;
+	color: #ffffff;
+	background: #2879ed;
+	box-shadow: 0 3px 7px rgba(40, 121, 237, 0.2);
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+	background: #1767d5;
+	box-shadow: 0 4px 10px rgba(40, 121, 237, 0.28);
+}
+
+.menu-toggle {
+	display: none;
+	border: 0;
+	color: #14213d;
+	background: transparent;
+	cursor: pointer;
+}
+
+.menu-toggle svg {
+	width: 23px;
+	height: 23px;
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-width: 2;
+}
+
+.page-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 64px 28px;
+}
