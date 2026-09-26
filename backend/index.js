@@ -6,8 +6,8 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
 //router import
-const userRouter = require("./src/routes/user")
-
+const userRouter = require("./src/routes/user");
+const documentRouter = require("./src/routes/document");
 
 const app = express();
 
@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 8000;
 // Routes
 
 app.use("/user" , userRouter )
+app.use("/document" , documentRouter);
 
 
 // global error handler
