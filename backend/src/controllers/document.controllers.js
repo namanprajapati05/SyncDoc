@@ -82,9 +82,73 @@ const addCollaborator = async (req, res) => {
   );
 };
 
+
+const ALLOWED_BLOCK_TYPES = ["paragraph", "heading", "image", "list", "code"];
+
+const addBlock = async (req, res) => {
+
+  const { documentId } = req.params;
+  const { blockId, type, content } = req.body;
+
+  if (!blockId) {
+    throw new ApiError(400, "blockId is required");
+  }
+
+  if (!ALLOWED_BLOCK_TYPES.includes(type)) {
+    throw new ApiError(400, "invalid block type");
+  }
+
+  const doc = await Document.findById(documentId);
+
+  if (!doc) {
+    throw new ApiError(404, "document not found");
+  }
+
+  const isOwner = doc.ownerId.toString() === req.user._id.toString();
+
+  const isEditor = doc.collaborators.some((collaborator) => {
+    return (
+      collaborator.userId.toString() === req.user._id.toString() &&
+      collaborator.role === "editor"
+    );
+  });
+
+  if (!isOwner && !isEditor) {
+    throw new ApiError(403, "only the owner or an editor can add blocks");
+  }
+
+  const blockAlreadyExists = doc.ast.blocks.some((block) => {
+    return block.blockId === blockId;
+  });
+
+  if (blockAlreadyExists) {
+    throw new ApiError(409, "a block with this blockId already exists");
+  }
+
+  const newBlock = {
+    blockId: blockId,
+    type: type,
+    content: content || "",       
+    createdBy: req.user._id,
+    updatedBy: req.user._id,
+  };
+
+
+  doc.ast.blocks.push(newBlock);
+
+  await doc.save();
+
+  return res.status(201).json(
+    new ApiResponse(201, { ast: doc.ast }, "block added successfully")
+  );
+};
+
+
+
 module.exports={
     createDocument,
-    addCollaborator
+    addCollaborator,
+    addBlock
 }
 
 
