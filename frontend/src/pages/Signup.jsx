@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import './Signup.css'
-
+import '../index.css'
 const UserIcon = () => (
 	<svg viewBox="0 0 24 24" aria-hidden="true">
 		<circle cx="12" cy="8" r="3.5" />
@@ -23,10 +22,25 @@ const LockIcon = () => (
 )
 
 const Signup = () => {
+	const [name, setName] = useState('')
+	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
+	const [error, setError] = useState('')
 
 	const passwordsMatch = !confirmPassword || password === confirmPassword
+
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		setError('')
+		if (password.length < 8) {
+			setError('Use at least 8 characters for your password.')
+			return
+		}
+		if (!passwordsMatch) return
+		localStorage.setItem('syncdoc-user', JSON.stringify({ name, email: email.trim().toLowerCase(), password }))
+		window.location.href = '/login?created=1'
+	}
 
 	return (
 		<main className="signup-page">
@@ -38,12 +52,12 @@ const Signup = () => {
 					<p className="signup-subtitle">Start organizing and syncing your documents today.</p>
 				</div>
 
-				<form className="signup-form">
+				<form className="signup-form" onSubmit={handleSubmit}>
 					<label className="form-field">
 						<span>Full Name</span>
 						<span className="input-wrap">
 							<UserIcon />
-							<input type="text" name="name" placeholder="Enter your full name" autoComplete="name" required />
+							<input type="text" name="name" placeholder="Enter your full name" autoComplete="name" required value={name} onChange={(event) => setName(event.target.value)} />
 						</span>
 					</label>
 
@@ -51,9 +65,10 @@ const Signup = () => {
 						<span>Email Address</span>
 						<span className="input-wrap">
 							<MailIcon />
-							<input type="email" name="email" placeholder="you@example.com" autoComplete="email" required />
+							<input type="email" name="email" placeholder="you@example.com" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
 						</span>
 					</label>
+					{error && <p className="form-error" role="alert">{error}</p>}
 
 					<label className="form-field">
 						<span>Password</span>
