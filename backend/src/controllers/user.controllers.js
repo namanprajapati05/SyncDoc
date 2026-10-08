@@ -106,7 +106,11 @@ const logout = async (req, res) => {
     .json(new ApiResponse(200, null, "User logged out successfully"));
 };
 
-
+const getCurrentUser = async (req, res) => {
+  return res.status(200).json(
+    new ApiResponse(200, { user: req.user }, "current user fetched successfully")
+  );
+};
 
 const refreshToken = async (req, res) => {
   const token = req.cookies.refreshToken;
@@ -157,9 +161,33 @@ const refreshToken = async (req, res) => {
   );
 };
 
+const searchUsers = async (req, res) => {
+  const { email } = req.query;
+
+  if (!email || email.trim().length < 3) {
+    throw new ApiError(400, "type at least 3 characters");
+  }
+
+  const safeText = email.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const users = await User.find({
+    email: { $regex: "^" + safeText, $options: "i" },
+  })
+    .select("name email avatar")
+    .limit(5);
+
+  return res.status(200).json(
+    new ApiResponse(200, { users }, "users fetched successfully")
+  );
+};
+
+
+
 module.exports = {
   signup,
   login,
   logout,
   refreshToken,
+  getCurrentUser,
+  searchUsers
 };

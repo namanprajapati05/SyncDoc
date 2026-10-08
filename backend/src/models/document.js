@@ -14,11 +14,15 @@ const collaboratorSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const blockSchema = new mongoose.Schema(
   {
+    parentId: {
+      type: String,
+      default: null, 
+    },
     blockId: {
       type: String,
       required: true,
@@ -45,7 +49,7 @@ const blockSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const astSchema = new mongoose.Schema(
@@ -60,7 +64,7 @@ const astSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const documentSchema = new mongoose.Schema(
@@ -92,7 +96,7 @@ const documentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model("Document", documentSchema);
