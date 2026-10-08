@@ -253,6 +253,149 @@ const addBlock = async (req, res) => {
     .json(new ApiResponse(201, { ast: doc.ast }, "block added successfully"));
 };
 
+
+const updateDocument = async (req, res) => {
+  const { documentId } = req.params;
+  const { title } = req.body;
+
+  if (!title || !title.trim()) {
+    throw new ApiError(400, "title is required");
+  }
+
+  const doc = await Document.findById(documentId);
+  if (!doc) {
+    throw new ApiError(404, "document not found");
+  }
+
+  const isOwner = doc.ownerId.toString() === req.user._id.toString();
+  const isEditor = doc.collaborators.some((c) => {
+    return c.userId.toString() === req.user._id.toString() && c.role === "editor";
+  });
+
+  if (!isOwner && !isEditor) {
+    throw new ApiError(403, "only the owner or an editor can update this document");
+  }
+
+  doc.title = title.trim();
+  await doc.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, { _id: doc._id, title: doc.title }, "document updated successfully")
+  );
+};
+
+
+const updateBlock = async (req, res) => {
+  const { documentId, blockId } = req.params;
+  const { content, type } = req.body;
+
+  if (type !== undefined && !ALLOWED_BLOCK_TYPES.includes(type)) {
+    throw new ApiError(400, "invalid block type");
+  }
+
+  const doc = await Document.findById(documentId);
+  if (!doc) {
+    throw new ApiError(404, "document not found");
+  }
+
+  const isOwner = doc.ownerId.toString() === req.user._id.toString();
+  const isEditor = doc.collaborators.some((c) => {
+    return c.userId.toString() === req.user._id.toString() && c.role === "editor";
+  });
+
+  if (!isOwner && !isEditor) {
+    throw new ApiError(403, "only the owner or an editor can update blocks");
+  }
+
+
+  const block = doc.ast.blocks.find((b) => b.blockId === blockId);
+  if (!block) {
+    throw new ApiError(404, "block not found");
+  }
+
+  if (content !== undefined) {
+    block.content = content;
+  }
+  if (type !== undefined) {
+    block.type = type;
+  }
+  block.updatedBy = req.user._id;
+
+  await doc.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, { block }, "block updated successfully")
+  );
+};
+
+
+const updateCollaboratorRole = async (req, res) => {
+
+  const { documentId, userId } = req.params;
+  const { role } = req.body;
+
+  if (!["editor", "viewer"].includes(role)) {
+    throw new ApiError(400, "role must be 'editor' or 'viewer'");
+  }
+
+  const doc = await Document.findById(documentId);
+  if (!doc) {
+    throw new ApiError(404, "document not found");
+  }
+
+  if (doc.ownerId.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "only the owner can change roles");
+  }
+
+ 
+  const collaborator = doc.collaborators.find((c) => {
+    return c.userId.toString() === userId;
+  });
+
+  if (!collaborator) {
+    throw new ApiError(404, "collaborator not found");
+  }
+
+
+  collaborator.role = role;
+  await doc.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, { collaborators: doc.collaborators }, "role updated successfully")
+  );
+};
+
+const removeCollaborator = async (req, res) => {
+
+  const { documentId, userId } = req.params;
+
+  const doc = await Document.findById(documentId);
+  if (!doc) {
+    throw new ApiError(404, "document not found");
+  }
+
+  if (doc.ownerId.toString() !== req.user._id.toString()) {
+    throw new ApiError(403, "only the owner can remove collaborators");
+  }
+
+
+  const exists = doc.collaborators.some((c) => c.userId.toString() === userId);
+  if (!exists) {
+    throw new ApiError(404, "collaborator not found");
+  }
+
+  doc.collaborators = doc.collaborators.filter((c) => {
+    return c.userId.toString() !== userId;
+  });
+
+
+  await doc.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, { collaborators: doc.collaborators }, "collaborator removed successfully")
+  );
+};
+
 module.exports = {
   createDocument,
   listDocuments,
@@ -261,4 +404,9 @@ module.exports = {
   deleteBlock ,
   addCollaborator,
   addBlock,
+  updateDocument,
+  updateBlock,
+  updateCollaboratorRole,
+  removeCollaborator
+
 };
