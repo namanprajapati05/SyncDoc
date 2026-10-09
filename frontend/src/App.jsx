@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Signup from './pages/Signup'
+import Features from './pages/Features'
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Route path="/" element={<><Navbar /><Home /></>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/features" element={<Features />} />
         <Route path="*" element={<><Navbar /><Home /></>} />
     
       </Routes>
