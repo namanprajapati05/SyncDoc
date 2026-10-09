@@ -1,14 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-router.post("/login" ,  async(req , res)=>{
- 
-    const {userName , email , password} = req.body ;
-    const userData = await  db.findOne({userName : userName}) ;
-    
- 
-    res.json({msg:"login routes"})
- 
-})
 
-module.exports = router ;
+const { asyncHandler } = require("../utils/asyncHandler");
+const {
+  signup,
+  login,
+  logout,
+  refreshToken,
+  getCurrentUser,
+  searchUsers
+} = require("../controllers/user.controllers");
+const { authmiddleware } = require("../middleware/auth.middleware");
+
+
+router.post("/signup", asyncHandler(signup));
+router.post("/login", asyncHandler(login));
+router.get("/logout", asyncHandler(logout));
+router.post("/refresh-token", asyncHandler(refreshToken));
+router.get("/user", authmiddleware , asyncHandler(getCurrentUser));
+router.get("/search", authmiddleware,asyncHandler(searchUsers));
+
+module.exports = router;
