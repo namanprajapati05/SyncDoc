@@ -1,0 +1,319 @@
+/* Main Editor Page Layout */
+.syncdoc-editor-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+}
+
+/* 1. Header */
+.syncdoc-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+}
+
+.syncdoc-header-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Brand & Title */
+.syncdoc-brand-title-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.syncdoc-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.syncdoc-logo-icon {
+  color: var(--primary);
+}
+
+.syncdoc-brand-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.syncdoc-header-divider {
+  width: 1px;
+  height: 22px;
+  background-color: var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.syncdoc-doc-title-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.syncdoc-doc-title-input {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  background-color: transparent;
+  outline: none;
+  width: 100%;
+  max-width: 380px;
+  transition: all var(--transition-fast);
+}
+
+.syncdoc-doc-title-input:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--border-subtle);
+}
+
+.syncdoc-doc-title-input:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.syncdoc-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.syncdoc-status-check {
+  color: var(--success);
+}
+
+/* Header Action Buttons */
+.syncdoc-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.syncdoc-btn-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.syncdoc-btn-add-text {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary-border);
+}
+
+.syncdoc-btn-add-text:hover {
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.syncdoc-btn-add-code {
+  background-color: #f5f3ff;
+  color: #7c3aed;
+  border: 1px solid #ddd6fe;
+}
+
+.syncdoc-btn-add-code:hover {
+  background-color: #ede9fe;
+  border-color: #c4b5fd;
+  color: #6d28d9;
+  transform: translateY(-1px);
+}
+
+.syncdoc-btn-header-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  transition: all var(--transition-fast);
+}
+
+.syncdoc-btn-header-secondary:hover {
+  background-color: var(--bg-surface-hover);
+  color: var(--text-main);
+}
+
+/* 2. Sub-Header Info Bar */
+.syncdoc-info-bar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #edf2f7;
+  padding: 6px 0;
+}
+
+.syncdoc-info-bar-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.syncdoc-meta-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.syncdoc-meta-pill {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.syncdoc-shortcuts-hint {
+  color: var(--text-muted);
+  font-size: 11.5px;
+}
+
+/* 3. Workspace */
+.syncdoc-workspace {
+  flex: 1;
+  padding: 24px 20px 48px;
+  max-width: 940px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.syncdoc-workspace-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Empty State */
+.syncdoc-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  background-color: var(--bg-surface);
+  border: 2px dashed var(--border-subtle);
+  border-radius: var(--radius-lg);
+  margin: 20px 0;
+}
+
+.syncdoc-empty-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.syncdoc-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.syncdoc-empty-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 420px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.syncdoc-empty-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* 4. Footer */
+.syncdoc-footer {
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-subtle);
+  padding: 12px 24px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.syncdoc-footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.syncdoc-status-text {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .syncdoc-header-inner {
+    flex-wrap: wrap;
+    padding: 8px 16px;
+  }
+
+  .syncdoc-brand-title-group {
+    order: 1;
+    width: 100%;
+  }
+
+  .syncdoc-header-actions {
+    order: 2;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 4px;
+  }
+
+  .syncdoc-workspace {
+    padding: 16px 12px 32px;
+  }
+
+  .syncdoc-hide-mobile {
+    display: none;
+  }
+}

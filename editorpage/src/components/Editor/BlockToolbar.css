@@ -1,0 +1,44 @@
+.syncdoc-block-toolbar {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 2px 4px;
+  gap: 2px;
+  box-shadow: var(--shadow-sm);
+  transition: opacity var(--transition-fast), border-color var(--transition-fast);
+}
+
+.syncdoc-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.syncdoc-toolbar-btn:hover:not(:disabled) {
+  background-color: var(--bg-surface-hover);
+  color: var(--text-main);
+}
+
+.syncdoc-toolbar-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.syncdoc-toolbar-btn-danger:hover:not(:disabled) {
+  background-color: var(--danger-light);
+  color: var(--danger);
+}
+
+.syncdoc-toolbar-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--border-subtle);
+  margin: 0 2px;
+}
