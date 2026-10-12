@@ -21,6 +21,11 @@ const userSchema = new Schema(
       required: true,
     },
 
+    refreshToken: {
+      type: String,
+      default: null,
+    },
+
     avatar: {
       type: String,
       default: null,

@@ -1,12 +1,11 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
+require("dotenv").config();
 
 const setupWebSocket = require("./src/websocket/websocket");
 
 const connectDb = require("./src/config/database");
-require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
 //router import
@@ -17,17 +16,18 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",
+  credentials: true,
+}));
 app.use(cookieParser());
 
 // Port
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 
 // Routes
 // Add your routes here later
 
-// Create HTTP server
-const server = http.createServer(app);
 app.use("/user" , userRouter )
 app.use("/document" , documentRouter);
 
@@ -42,24 +42,14 @@ app.use((err, req, res, next) => {
 });
 
 
-// Setup WebSocket
-setupWebSocket(server);
-
-
-// Start server
-
-server.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
-});
-// Start server
-
 const startServer = async()=>{
-    await connectDb();
+  await connectDb();
 
-
-    app.listen(PORT, () => {
+  const server = http.createServer(app);
+  setupWebSocket(server);
+  server.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
-});
+  });
 
 }
 
